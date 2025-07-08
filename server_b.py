@@ -64,3 +64,16 @@ if __name__ == '__main__':
     app.run(host='0.0.0.0', port=port)
 
 
+@app.route('/view', methods=['GET'])
+def view_records():
+    conn = sqlite3.connect('your.db')
+    c = conn.cursor()
+    c.execute('SELECT * FROM inquiry')
+    rows = c.fetchall()
+    conn.close()
+
+    html = "<h1>All Inquiries</h1><ul>"
+    for row in rows:
+        html += f"<li>{row}</li>"
+    html += "</ul>"
+    return html
